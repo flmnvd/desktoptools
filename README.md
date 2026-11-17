@@ -21,6 +21,7 @@ The project is structured as a single CMake solution with separate subprojects:
 |---|---|---|
 | `switch_desktop_1` | `switch_desktop_1.exe` | Switches immediately to Windows Desktop 1. |
 | `switch_desktop_2` | `switch_desktop_2.exe` | Switches immediately to Windows Desktop 2 (creates it if needed). |
+| `focus_chatgpt` | `focus_chatgpt.exe` | Focuses the ChatGPT window (restoring from minimized/background) or launches ChatGPT from Windows Store if not started. |
 | `common` | `desktop_tools_common.lib` | Shared core library managing internal COM interfaces and desktop switching. |
 
 ---
@@ -41,8 +42,14 @@ z:\desktop-tools\
 │   ├── CMakeLists.txt
 │   ├── main.cpp
 │   └── version.rc
-└── switch_desktop_2\           # Subproject: Switch to Desktop 2
+├── switch_desktop_2\           # Subproject: Switch to Desktop 2
+│   ├── CMakeLists.txt
+│   ├── main.cpp
+│   └── version.rc
+└── focus_chatgpt\              # Subproject: Focus or launch ChatGPT
     ├── CMakeLists.txt
+    ├── chatgpt_manager.h
+    ├── chatgpt_manager.cpp
     ├── main.cpp
     └── version.rc
 ```
@@ -75,6 +82,7 @@ cmake --build . --config Release
 The compiled binaries will be placed in:
 - `z:\desktop-tools\build\bin\switch_desktop_1.exe`
 - `z:\desktop-tools\build\bin\switch_desktop_2.exe`
+- `z:\desktop-tools\build\bin\focus_chatgpt.exe`
 
 ---
 
@@ -87,23 +95,28 @@ To map the utilities to keys on your **SXS-K811 Model II** mini keyboard:
 3. Set the action / function to **"Launch Program"** or **"Run Application"**.
 4. Browse and select `z:\desktop-tools\build\bin\switch_desktop_1.exe`.
 5. Select another key (for example, Key 2), set action to **"Launch Program"**, and select `z:\desktop-tools\build\bin\switch_desktop_2.exe`.
-6. Save and apply the configuration to the keypad.
+6. Select another key (for example, Key 3), set action to **"Launch Program"**, and select `z:\desktop-tools\build\bin\focus_chatgpt.exe`.
+7. Save and apply the configuration to the keypad.
 
-Now, tapping the mapped keys on your mini keyboard will switch instantly between Desktop 1 and Desktop 2 without any screen interruption or console popups.
+Now, tapping the mapped keys on your mini keyboard will switch instantly between Desktops or bring ChatGPT to the foreground without any console popups or interruptions.
 
 ---
 
 ## Command-Line Options (Optional)
 
-Both utilities can also be invoked from a terminal for testing or diagnostics:
+All utilities can also be invoked from a terminal for testing or diagnostics:
 
 ```powershell
 # Display help and usage
 switch_desktop_1.exe --help
+focus_chatgpt.exe --help
 
 # Query current virtual desktop and total count
 switch_desktop_1.exe --info
 
-# Verbose switch confirmation
-switch_desktop_2.exe --verbose
+# Inspect ChatGPT process and window status
+focus_chatgpt.exe --info
+
+# Verbose execution with diagnostics
+focus_chatgpt.exe --verbose
 ```

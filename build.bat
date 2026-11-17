@@ -35,6 +35,7 @@ echo Build completed successfully!
 echo Executables generated in: %~dp0build\bin
 echo   - %~dp0build\bin\switch_desktop_1.exe
 echo   - %~dp0build\bin\switch_desktop_2.exe
+echo   - %~dp0build\bin\focus_chatgpt.exe
 echo ===================================================
 
 exit /b 0
